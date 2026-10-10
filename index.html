@@ -114,8 +114,8 @@ Object.assign(sun.shadow.camera,{left:-20,right:20,top:20,bottom:-20});scene.add
 const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,cam));
 const bloom=new UnrealBloomPass(new THREE.Vector2(512,512),.55,.6,.9);composer.addPass(bloom);composer.addPass(new OutputPass());
 const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.8,...o});
-const B=(w,h,d,m)=>const R=14;
-const fl=new THREE.Mesh(new THREE.CylinderGeometry(R,R+1,1,48),M(0xc4aa84));fl.position.y=-.5;fl.receiveShadow=true;scene.add(fl);
+const B=(w,h,d,m)=>{const x=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);x.castShadow=x.receiveShadow=true;return x};
+const R=14;const fl=new THREE.Mesh(new THREE.CylinderGeometry(R,R+1,1,48),M(0xc4aa84));fl.position.y=-.5;fl.receiveShadow=true;scene.add(fl);
 [[R-1,.12,0x35c0ff],[9,.08,0xffc928],[4.5,.1,0x35c0ff]].forEach(([r,w,c])=>{const t=new THREE.Mesh(new THREE.TorusGeometry(r,w,8,64),M(c,{emissive:c,emissiveIntensity:2}));t.rotation.x=Math.PI/2;t.position.y=.03;scene.add(t)});
 const portal=new THREE.Mesh(new THREE.TorusGeometry(2.4,.25,12,40),M(0x35c0ff,{emissive:0x1a90ff,emissiveIntensity:3}));portal.position.set(0,2.8,-R+1);scene.add(portal);
 const pin=new THREE.Mesh(new THREE.CircleGeometry(2.2,32),new THREE.MeshBasicMaterial({color:0x66ccff,transparent:true,opacity:.35}));pin.position.copy(portal.position);scene.add(pin);
