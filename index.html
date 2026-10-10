@@ -115,7 +115,7 @@ const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scen
 const bloom=new UnrealBloomPass(new THREE.Vector2(512,512),.55,.6,.9);composer.addPass(bloom);composer.addPass(new OutputPass());
 const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.8,...o});
 const B=(w,h,d,m)=>{const x=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);x.castShadow=x.receiveShadow=true;return x};
-const R=14;function makeChar(c){
+const R=14;
  const g=new THREE.Group(),sk=M(0xf2c8a0),dark=M(0x16161f),
  sm=M(c.shirt,{emissive:c.glow,emissiveIntensity:.35}),
  gw=M(c.glow,{emissive:c.glow,emissiveIntensity:3}),hm=M(c.hair);
