@@ -242,4 +242,8 @@ renderer.setAnimationLoop(()=>{const dt=Math.min(clock.getDelta(),.05);t+=dt;
  if(state!=='play'){[P,E].forEach(o=>{o.g.lL.rotation.x=o.g.lR.rotation.x=0;o.g.aR.rotation.x=o.g.aL.rotation.x=0;o.g.position.y=Math.sin(t*2)*.03})}
  if(state!=='sel'&&state!=='menu'&&state!=='load')E.g.visible=true;
  aura(P.g);aura(E.g);composer.render()});
-</script></body></html>
+</script></body><pre id="err" style="position:fixed;z-index:999;top:0;left:0;right:0;background:#900;color:#fff;font-size:12px;padding:6px;white-space:pre-wrap;margin:0"></pre>
+<script>
+addEventListener('error',e=>{err.textContent+=(e.message||'falha ao carregar')+' '+(e.target&&e.target.src?e.target.src:'')+' linha '+(e.lineno||'')+'\n'},true);
+addEventListener('unhandledrejection',e=>{err.textContent+=String(e.reason)+'\n'});
+</script></html>
