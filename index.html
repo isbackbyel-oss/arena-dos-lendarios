@@ -155,7 +155,8 @@ for(let i=0;i<16;i++){const a=Math.random()*6.28,d=R+7+Math.random()*28,s=3+Math
 for(let i=0;i<10;i++){const c=new THREE.Mesh(new THREE.SphereGeometry(3,10,8),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.85}));c.scale.set(2,.5,1);const a=Math.random()*6.28;c.position.set(Math.cos(a)*45,8+Math.random()*14,Math.sin(a)*45);scene.add(c)}
 const plat=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,.15,32),M(0x35c0ff,{emissive:0x1a90ff,emissiveIntensity:2.5}));plat.visible=false;scene.add(plat);
 
-function makeCharOld(c){ const g=new THREE.Group(),sk=M(0xf2c8a0),sm=M(c.shirt,{emissive:c.glow,emissiveIntensity:.3}),pm=M(0x15151f),gl=M(0x15151f);
+function makeCharOld(c){ 
+ const g=new THREE.Group(),sk=M(0xf2c8a0),sm=M(c.shirt,{emissive:c.glow,emissiveIntensity:.3}),pm=M(0x15151f),gl=M(0x15151f);
  const tor=B(.9,1.1,.5,sm);tor.position.y=1.55;g.add(tor);
  const hd=B(.72,.72,.72,sk);hd.position.y=2.45;g.add(hd);
  const hr=B(.8,.3,.8,M(c.hair));hr.position.y=2.86;g.add(hr);
