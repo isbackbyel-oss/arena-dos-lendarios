@@ -115,7 +115,32 @@ const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scen
 const bloom=new UnrealBloomPass(new THREE.Vector2(512,512),.55,.6,.9);composer.addPass(bloom);composer.addPass(new OutputPass());
 const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.8,...o});
 const B=(w,h,d,m)=>{const x=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);x.castShadow=x.receiveShadow=true;return x};
-const R=14;const fl=new THREE.Mesh(new THREE.CylinderGeometry(R,R+1,1,48),M(0xc4aa84));fl.position.y=-.5;fl.receiveShadow=true;scene.add(fl);
+const R=14;function makeChar(c){
+ const g=new THREE.Group(),sk=M(0xf2c8a0),dark=M(0x16161f),
+ sm=M(c.shirt,{emissive:c.glow,emissiveIntensity:.35}),
+ gw=M(c.glow,{emissive:c.glow,emissiveIntensity:3}),hm=M(c.hair);
+ const add=(m,x,y,z,p)=>{m.position.set(x,y,z);(p||g).add(m);return m};
+ add(B(1,1.2,.55,sm),0,1.6,0);
+ add(B(1.04,.2,.6,gw),0,1.05,0);
+ add(B(.8,.8,.8,sk),0,2.55,0);
+ add(B(.88,.3,.88,hm),0,2.98,0);
+ add(B(.9,.3,.1,hm),0,2.85,.4);
+ for(let i=-3;i<=3;i++){const s=new THREE.Mesh(new THREE.ConeGeometry(.17,.7,5),hm);s.castShadow=true;s.rotation.z=-i*.22;add(s,i*.15,3.35-Math.abs(i)*.06,(i%2)*.1)}
+ for(const x of[-.2,.2]){add(B(.14,.18,.02,M(0x111111)),x,2.55,.41);add(B(.05,.06,.02,M(0xffffff)),x+.03,2.6,.42)}
+ add(B(1.05,.28,.7,M(c.scarf,{emissive:c.scarf,emissiveIntensity:.4})),0,2.05,0);
+ const tl=add(B(.26,1,.1,M(c.scarf)),.25,1.5,-.4);tl.rotation.x=.15;
+ const arm=x=>{const p=new THREE.Group();p.position.set(x,2.1,0);g.add(p);
+  add(B(.34,1,.34,sm),0,-.45,0,p);add(B(.37,.08,.37,gw),0,-.25,0,p);add(B(.42,.42,.42,dark),0,-1,0,p);return p};
+ const leg=x=>{const p=new THREE.Group();p.position.set(x,1,0);g.add(p);
+  add(B(.44,1,.44,dark),0,-.5,0,p);add(B(.47,.14,.47,gw),0,-.88,0,p);return p};
+ g.aL=arm(-.68);g.aR=arm(.68);g.lL=leg(-.25);g.lR=leg(.25);
+ const ms=[];g.traverse(o=>o.isMesh&&ms.push(o));
+ const ob=new THREE.MeshBasicMaterial({color:0x05050a,side:THREE.BackSide});
+ ms.forEach(o=>{const l=new THREE.Mesh(o.geometry,ob);l.scale.setScalar(1.07);o.add(l)});
+ const N=70,ge=new THREE.BufferGeometry();ge.setAttribute('position',new THREE.BufferAttribute(new Float32Array(N*3),3));
+ g.aura=new THREE.Points(ge,new THREE.PointsMaterial({color:c.glow,size:.32,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
+ g.aura.frustumCulled=false;g.add(g.aura);
+ scene.add(g);return g}const fl=new THREE.Mesh(new THREE.CylinderGeometry(R,R+1,1,48),M(0xc4aa84));fl.position.y=-.5;fl.receiveShadow=true;scene.add(fl);
 [[R-1,.12,0x35c0ff],[9,.08,0xffc928],[4.5,.1,0x35c0ff]].forEach(([r,w,c])=>{const t=new THREE.Mesh(new THREE.TorusGeometry(r,w,8,64),M(c,{emissive:c,emissiveIntensity:2}));t.rotation.x=Math.PI/2;t.position.y=.03;scene.add(t)});
 const portal=new THREE.Mesh(new THREE.TorusGeometry(2.4,.25,12,40),M(0x35c0ff,{emissive:0x1a90ff,emissiveIntensity:3}));portal.position.set(0,2.8,-R+1);scene.add(portal);
 const pin=new THREE.Mesh(new THREE.CircleGeometry(2.2,32),new THREE.MeshBasicMaterial({color:0x66ccff,transparent:true,opacity:.35}));pin.position.copy(portal.position);scene.add(pin);
