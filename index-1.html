@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b1a3a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Arena dos Lendários</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<canvas id="cena"></canvas>
+
+<!-- CARREGAMENTO -->
+<section id="tela-load" class="tela ativa">
+  <h1 class="logo">Arena<small>dos</small>Lendários</h1>
+  <div class="barra-load"><i id="load-fill"></i></div>
+  <p id="load-txt">Carregando…</p>
+</section>
+
+<!-- MENU PRINCIPAL -->
+<section id="tela-menu" class="tela">
+  <div class="moedas">🪙 <span id="moedas-menu">0</span></div>
+  <div class="menu-col">
+    <h1 class="logo pequeno">Arena<small>dos</small>Lendários</h1>
+    <button class="btn ouro" id="b-jogar">▶ Jogar</button>
+    <button class="btn" id="b-loja">Loja</button>
+    <button class="btn" id="b-config">Configurações</button>
+    <button class="btn" id="b-sair">Sair</button>
+  </div>
+</section>
+
+<!-- AVISO "EM BREVE" -->
+<section id="tela-breve" class="tela">
+  <div class="caixa">
+    <h2 id="breve-titulo">Em breve</h2>
+    <p id="breve-txt">Esta parte será feita nas próximas etapas.</p>
+    <button class="btn ouro" id="b-breve-ok">Voltar</button>
+  </div>
+</section>
+
+<!-- JOGO -->
+<section id="tela-jogo" class="tela">
+  <div class="hud-topo">
+    <div class="lutador esq">
+      <b>Kael</b>
+      <div class="vida"><i id="vida-j" class="verde"></i></div>
+    </div>
+    <div class="centro"><span id="tempo">01:30</span><small>Ronda 1</small></div>
+    <div class="lutador dir">
+      <b>Ryuk</b>
+      <div class="vida"><i id="vida-i" class="vermelha"></i></div>
+    </div>
+  </div>
+  <button id="b-pausa" class="btn-pausa" aria-label="Pausar">❚❚</button>
+
+  <div id="joy" class="joy"><div id="joy-knob"></div></div>
+  <div class="acoes">
+    <button id="b-poder" class="b-acao poder"><span>🔥</span><em>Poder</em><i id="cd-poder"></i></button>
+    <button id="b-ataque" class="b-acao ataque"><span>👊</span><em>Ataque</em></button>
+  </div>
+</section>
+
+<!-- PAUSA -->
+<section id="tela-pausa" class="tela">
+  <div class="caixa">
+    <h2>Pausado</h2>
+    <button class="btn ouro" id="b-continuar">▶ Continuar</button>
+    <button class="btn" id="b-reiniciar">Reiniciar luta</button>
+    <button class="btn" id="b-menu-pausa">Voltar ao menu</button>
+  </div>
+</section>
+
+<!-- FIM DE PARTIDA -->
+<section id="tela-fim" class="tela">
+  <div class="caixa">
+    <h2 id="fim-titulo" class="titulo-fim">Vitória</h2>
+    <p id="fim-txt"></p>
+    <button class="btn ouro" id="b-de-novo">Lutar de novo</button>
+    <button class="btn" id="b-menu-fim">Voltar ao menu</button>
+  </div>
+</section>
+
+<!-- AVISO PARA GIRAR O CELULAR -->
+<div id="girar">
+  <div class="icone-girar">📱</div>
+  <p>Vire o celular para jogar<br>(modo horizontal)</p>
+</div>
+
+<script type="module" src="main.js"></script>
+<script>
+  setTimeout(function(){
+    if(!window.__arenaOk){document.getElementById('load-txt').textContent='Não carregou. Verifique a internet e recarregue a página.';}
+  },10000);
+</script>
+</body>
+</html>

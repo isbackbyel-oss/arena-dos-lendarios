@@ -1,0 +1,14 @@
+{
+  "name": "Arena dos Lendários",
+  "short_name": "Arena",
+  "description": "Jogo de luta 3D para celular",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0b1a3a",
+  "theme_color": "#0b1a3a",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
