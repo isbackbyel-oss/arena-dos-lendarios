@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Arena dos Lendários</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;margin:0}
+html,body{height:100%;overflow:hidden;background:#07102b;font-family:system-ui,Arial,sans-serif;color:#fff;font-size:2.4vh}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+.sc{position:fixed;inset:0;z-index:10}
+.hide{display:none!important}
+.logo{font-size:11vh;font-weight:900;line-height:.9;text-align:center;color:#ffc928;-webkit-text-stroke:.4vh #7a3b00;text-shadow:0 .8vh 0 #b36b00,0 0 3vh #ff9a00}
+.logo small{display:block;font-size:4vh;color:#ffb300;-webkit-text-stroke:0}
+.logo b{display:block;color:#3ab0ff;-webkit-text-stroke:.4vh #0a2a6a;text-shadow:0 .8vh 0 #0a3d9a,0 0 3vh #3ab0ff}
+.btn{display:block;border:.3vh solid #2d5bd6;background:#0e2260;color:#fff;border-radius:1.2vh;padding:1.6vh 3vh;font-size:2.8vh;font-weight:800;margin:1vh 0;width:100%;text-align:left}
+.btn.g{background:linear-gradient(#ffd23f,#ff9f00);color:#2a1700;border-color:#fff3b0;text-align:center}
+.btn:active{transform:scale(.96)}
+.pan{background:#0a1a4acc;border:.3vh solid #2d5bd6;border-radius:1.5vh;padding:1.5vh}
+.coin{position:absolute;top:2vh;right:2vh;background:#0009;border:.3vh solid #fff3;border-radius:5vh;padding:.6vh 2vh;font-weight:800}
+#load{background:linear-gradient(#0b1a4a,#050a1d);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3vh}
+#lb{width:50vw;height:3vh;border:.3vh solid #3ab0ff;border-radius:2vh;overflow:hidden}#lb i{display:block;height:100%;width:0;background:linear-gradient(#3ad0ff,#1060ff)}
+#menu .pan{position:absolute;left:3vw;top:3vh;bottom:3vh;width:34vw;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(90deg,#050a1dcc,#050a1d00);border:0}
+.port{position:relative;width:100%;aspect-ratio:1;background:radial-gradient(var(--g),#0a1230);overflow:hidden;border-radius:1vh}
+.port i{position:absolute}.port .sk{left:25%;top:32%;width:50%;height:42%;background:#f2c8a0}.port .hr{left:21%;top:22%;width:58%;height:20%;background:var(--h)}
+.port .ey{top:50%;width:8%;height:9%;background:#111}.port .sc{left:20%;top:76%;width:60%;height:24%;background:var(--s)}
+#sel .l{position:absolute;left:2vw;top:2vh;bottom:2vh;width:34vw}#sel .r{position:absolute;right:2vw;top:2vh;bottom:2vh;width:34vw;display:flex;flex-direction:column;justify-content:center}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1vh;margin:1vh 0}
+.slot{position:relative;border:.4vh solid #2d5bd6;border-radius:1vh;overflow:hidden}.slot.on{border-color:#5be0ff;box-shadow:0 0 2vh #3ab0ff}
+.slot.lk{filter:brightness(.45)}.slot.lk::after{content:"🔒";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4vh}
+.st{display:flex;align-items:center;gap:1vh;margin:.6vh 0;font-size:1.9vh;font-weight:700}.st span{width:11vh}.st div{flex:1;height:1.8vh;background:#0006;border-radius:1vh;overflow:hidden}.st i{display:block;height:100%}
+#shop{background:linear-gradient(#0b1a4aee,#050a1df5);padding:3vh 3vw}
+#shop .tabs{position:absolute;left:3vw;top:14vh;width:22vw}#shop .cards{position:absolute;left:27vw;right:3vw;top:14vh;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5vh}
+.card{text-align:center;font-weight:800;padding:1vh}.card .btn{text-align:center;padding:1vh;font-size:2vh;margin:.6vh 0 0}
+#hud{pointer-events:none;z-index:5}#hud>*{position:absolute;pointer-events:auto}
+.bar{top:2vh;width:34vw;height:5vh;background:#0009;border:.3vh solid #fff5;border-radius:1vh;overflow:hidden;pointer-events:none!important}
+.bar i{display:block;height:100%;width:100%;transition:width .15s}.bar span{position:absolute;inset:0;text-align:center;line-height:5vh;font-weight:800;font-size:2.2vh}
+.av{top:1vh;width:9vh;border-radius:50%;overflow:hidden;border:.4vh solid #3a8cff;pointer-events:none!important}.av .port{border-radius:0}
+.nm{top:.5vh;font-weight:900;font-size:2.6vh;text-shadow:0 .2vh .4vh #000;pointer-events:none!important}
+#tm{top:1vh;left:50%;transform:translateX(-50%);text-align:center;background:#0a1230dd;border:.3vh solid #fff3;border-radius:1.5vh;padding:.6vh 3vh;pointer-events:none!important}#tm b{font-size:4vh;display:block;line-height:1}#tm small{font-size:1.8vh}
+.mb{left:1vh;width:9vh;height:9vh;background:#0a1230cc;border:.3vh solid #fff3;border-radius:1.5vh;font-size:1.7vh;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}.mb u{font-size:3.6vh;text-decoration:none}
+#ms{right:1vh;top:20vh;width:32vh;font-size:2vh}#ms .pb{height:1vh;background:#0006;margin:.6vh 0;border-radius:1vh}#ms .pb i{display:block;height:100%;background:#2ee6c8;border-radius:1vh}
+#chat{left:1vh;bottom:1vh;width:32vw;font-size:1.9vh;line-height:2.4vh;pointer-events:none!important;background:#0a1230bb;border-radius:1vh;padding:.8vh 1vh}
+#stick{left:3vh;bottom:13vh;width:28vh;height:28vh;border-radius:50%;background:#ffffff22;border:.4vh solid #ffffff55}#knob{position:absolute;left:calc(50% - 5vh);top:calc(50% - 5vh);width:10vh;height:10vh;border-radius:50%;background:#ffffffaa}
+.ac{border-radius:50%;border:.5vh solid #ffffffaa;color:#fff;font-weight:900;font-size:1.9vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-shadow:0 .2vh .4vh #000;line-height:1}.ac u{text-decoration:none;font-size:5vh}
+#sw{right:2vh;bottom:2vh;width:22vh;height:22vh;background:radial-gradient(#7fb0ff,#1a2a6a)}#fi{right:4vh;bottom:26vh;width:18vh;height:18vh;background:radial-gradient(#ff7a2a,#7a1000)}
+#hb{right:24vh;bottom:20vh;width:15vh;height:15vh;background:radial-gradient(#b980ff,#3a1a8c)}#mo{right:26vh;bottom:2vh;width:15vh;height:15vh;background:radial-gradient(#3a6aff,#0a1a5a)}
+#es{right:43vh;bottom:3vh;width:12vh;height:12vh;background:#0a1230dd}#es u{font-size:4vh}
+.pill{bottom:1.5vh;left:40%;background:#0009;border-radius:3vh;padding:.8vh 2vh;font-weight:800;font-size:2.4vh;pointer-events:none!important}
+.ov{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#050a1dcc}.ov .btn{width:45vh}
+#toast{position:fixed;left:50%;top:12vh;transform:translateX(-50%);background:#000c;border-radius:2vh;padding:1vh 3vh;z-index:50;font-weight:700}
+#rot{position:fixed;inset:0;background:#050a1d;z-index:99;display:none;align-items:center;justify-content:center;text-align:center;font-size:3vh;padding:30px}
+@media (orientation:portrait){#rot{display:flex}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<div id="rot">📱 Gire o celular para o modo horizontal</div>
+<div id="toast" class="hide"></div>
+
+<div id="load" class="sc"><div class="logo">ARENA<small>DOS</small><b>LENDÁRIOS</b></div><div id="lb"><i></i></div><div id="lt">Carregando... 0%</div></div>
+
+<div id="menu" class="sc hide"><div class="coin">🪙 <span class="cn"></span></div>
+<div class="pan"><div class="logo" style="margin-bottom:2vh">ARENA<small>DOS</small><b>LENDÁRIOS</b></div>
+<button class="btn g" id="bPlay">▶ JOGAR</button><button class="btn" id="bSel">🧑 PERSONAGENS</button><button class="btn" id="bShop">🛒 LOJA</button><button class="btn" id="bCfg">⚙ CONFIGURAÇÕES</button>
+<div style="font-size:1.8vh;color:#7fd0ff">Treino contra robô • Online 1v1 em breve</div></div></div>
+
+<div id="sel" class="sc hide"><div class="l"><div style="font-size:3.4vh;font-weight:900;color:#bfe3ff">ESCOLHA SEU LENDÁRIO</div><div class="grid pan" id="grid"></div><button class="btn" id="sBack" style="width:20vh">◀ VOLTAR</button></div>
+<div class="r pan"><div id="sn" style="font-size:5vh;font-weight:900"></div><div id="st" style="color:#3ab0ff;font-weight:700;margin-bottom:1vh"></div><div id="stats"></div><div id="sd" style="font-size:2vh;margin:1vh 0"></div><button class="btn g" id="sOk"></button></div></div>
+
+<div id="shop" class="sc hide"><div style="font-size:5vh;font-weight:900">LOJA</div><div class="coin">🪙 <span class="cn"></span></div>
+<div class="tabs"><button class="btn g">👤 PERSONAGENS</button><button class="btn" data-soon>👕 SKINS</button><button class="btn" data-soon>😀 EMOTES</button><button class="btn" data-soon>🪙 MOEDAS</button><button class="btn" id="shBack">◀ VOLTAR</button></div><div class="cards" id="cards"></div></div>
+
+<div id="hud" class="sc hide">
+<div class="av" style="left:1vh" id="av1"></div><div class="nm" style="left:11vh" id="n1"></div><div class="bar" style="left:11vh;top:4.5vh"><i id="hp1" style="background:linear-gradient(#5bff5b,#16a516)"></i><span id="t1"></span></div>
+<div id="tm"><small>DUELO</small><b id="tt">02:00</b><small>Derrote seu oponente!</small></div>
+<div class="av" style="right:1vh" id="av2"></div><div class="nm" style="right:11vh" id="n2"></div><div class="bar" style="right:11vh;top:4.5vh"><i id="hp2" style="background:linear-gradient(#ff6b6b,#b81616);margin-left:auto"></i><span id="t2"></span></div>
+<button class="mb" style="top:20vh" data-soon><u>🏪</u>Loja</button><button class="mb" style="top:30vh" data-soon><u>🎒</u>Mochila</button><button class="mb" style="top:40vh" data-soon><u>📊</u>Missões</button><button class="mb" style="top:50vh" id="hCfg"><u>⚙</u>Config.</button>
+<div id="ms" class="pan">✅ <b>Missão Diária</b><br>Vença 3 partidas <span id="mp" style="float:right"></span><div class="pb"><i id="mb"></i></div>🪙 +100</div>
+<div id="stick"><div id="knob"></div></div>
+<div id="chat"><span style="color:#ffc928">[Sistema]</span> Robô entrou na partida!<br><span style="color:#5be07a">[Mundo]</span> Bora!</div>
+<div class="pill" style="transform:translateX(-120%)">🪙 <span class="cn"></span></div><div class="pill" style="transform:translateX(10%)">💎 50</div>
+<button class="ac" id="es"><u id="esn">0</u>Especial</button><button class="ac" id="mo"><u>🏃</u>Movimento</button><button class="ac" id="hb"><u>⚡</u>Habilidade</button><button class="ac" id="fi"><u>🔥</u>Ataque</button><button class="ac" id="sw"><u>⚔️</u></button>
+</div>
+
+<div id="pm" class="sc ov hide"><div style="font-size:5vh;font-weight:900">PAUSADO</div><button class="btn g" id="pRes">▶ CONTINUAR</button><button class="btn" id="pMenu">🏠 VOLTAR AO MENU</button></div>
+<div id="end" class="sc ov hide"><div class="logo" id="et" style="font-size:14vh">VITÓRIA</div><div class="pan" id="er" style="margin:2vh;font-size:3vh"></div><button class="btn g" id="eAg">JOGAR DE NOVO</button><button class="btn" id="eMenu">🏠 VOLTAR AO MENU</button></div>
+
+<script type="module">
+import * as THREE from 'three';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+const $=id=>document.getElementById(id), hex=n=>n.toString(16).padStart(6,'0');
+let sv={coins:250,owned:['kael'],sel:'kael',wins:0,mdone:false,exp:0};
+try{Object.assign(sv,JSON.parse(localStorage.getItem('adl')||'{}'))}catch(e){}
+const store=()=>{try{localStorage.setItem('adl',JSON.stringify(sv))}catch(e){}};
+const CH=[
+{id:'kael',name:'KAEL',t:'O Guerreiro do Vento',d:'Rápido, ágil e imbatível em combates de curta distância.',s:[80,60,55,90],shirt:0x1d3f9a,hair:0x0b0b14,glow:0x3aa0ff,scarf:0x2a6bff},
+{id:'ryuk',name:'RYUK',t:'O Ninja Carmesim',d:'Ataques letais e muita energia de fogo.',s:[70,85,40,75],shirt:0x22222e,hair:0xe8eefc,glow:0xff2a2a,scarf:0xc01818},
+{id:'zora',name:'ZORA',t:'A Guardiã da Floresta',d:'Resistente e equilibrada, protege a arena.',s:[90,55,80,60],shirt:0x1f6b3a,hair:0x2ecc71,glow:0x38ff8a,scarf:0x1fa85a},
+{id:'dante',name:'DANTE',t:'A Sombra Roxa',d:'Misterioso, mestre dos golpes surpresa.',s:[65,90,45,80],shirt:0x3b1f6b,hair:0x120a22,glow:0xa05aff,scarf:0x7a3cd6}];
+const cById=id=>CH.find(c=>c.id===id);
+const port=c=>`<div class="port" style="--h:#${hex(c.hair)};--g:#${hex(c.glow)};--s:#${hex(c.scarf)}"><i class="hr"></i><i class="sk"></i><i class="ey" style="left:36%"></i><i class="ey" style="left:56%"></i><i class="sc"></i></div>`;
+function toast(m){const e=$('toast');e.textContent=m;e.classList.remove('hide');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add('hide'),1600)}
+document.querySelectorAll('[data-soon]').forEach(b=>b.onclick=()=>toast('Em breve!'));
+
+// ---------- 3D ----------
+const renderer=new THREE.WebGLRenderer({antialias:false});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=true;document.body.prepend(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x6ec6ff);scene.fog=new THREE.Fog(0x9ad8ff,30,90);
+const cam=new THREE.PerspectiveCamera(60,1,.1,200);
+scene.add(new THREE.HemisphereLight(0xcfeaff,0x556b3a,1.1));
+const sun=new THREE.DirectionalLight(0xfff0cc,1.8);sun.position.set(10,20,8);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);
+Object.assign(sun.shadow.camera,{left:-20,right:20,top:20,bottom:-20});scene.add(sun);
+const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,cam));
+const bloom=new UnrealBloomPass(new THREE.Vector2(512,512),.55,.6,.9);composer.addPass(bloom);composer.addPass(new OutputPass());
+const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.8,...o});
+const B=(w,h,d,m)=>
